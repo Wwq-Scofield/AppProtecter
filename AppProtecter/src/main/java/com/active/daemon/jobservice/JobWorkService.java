@@ -28,7 +28,6 @@ public class JobWorkService extends JobService {
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.i("wwq", "jobService启动");
         scheduleJob(getJobInfo());
-        startTargetService();
         return START_NOT_STICKY;
     }
 
@@ -38,6 +37,7 @@ public class JobWorkService extends JobService {
         if (startTargetService()) return false;
         return true;
     }
+
     private boolean startTargetService() {
         String classNameString = PrefrenceSp.getmInstance(this).getString(Constant.CLASS_NAME, "");
         Log.d("wwq", "classNameString= " + classNameString);
@@ -53,13 +53,13 @@ public class JobWorkService extends JobService {
             int count = classList.size();
             for (int index = 0; index < count; index++) {
                 String className = classList.get(index);
-                boolean serviceWork = isServiceWork(this, className);
-                if (!serviceWork) {
-                    Log.d("wwq", "启动service: "+className);
+                if (!isStarted) {
+                    isStarted = true;
+                    Log.d("wwq", "启动service: " + className);
                     Intent intent = new Intent();
                     intent.setClassName(this.getPackageName(), className);
                     this.startService(intent);
-                }else{
+                } else {
                     Log.d("wwq", "service 已经启动: ");
                 }
             }
@@ -70,6 +70,7 @@ public class JobWorkService extends JobService {
     @Override
     public boolean onStopJob(JobParameters params) {
         Log.i("wwq", "执行了onStopJob方法");
+        isStarted = false;
         scheduleJob(getJobInfo());
         return true;
     }    //将任务作业发送到作业调度中去
@@ -109,6 +110,7 @@ public class JobWorkService extends JobService {
         }
         return isWork;
     }
+
     private int getCurrentProcessPid() {
         return android.os.Process.myPid();
 
