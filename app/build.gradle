@@ -18,7 +18,8 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:26.0.0-beta1'
-    implementation 'com.github.Wwq-Scofield:AppProtecter:1.2'
+    //    implementation 'com.github.Wwq-Scofield:AppProtecter:1.2'
+    implementation project(':AppProtecter')
 }

@@ -39,7 +39,7 @@ public class JobWorkService extends JobService {
         return true;
     }
 
-    private boolean startTargetService() {
+    private synchronized boolean startTargetService() {
         String classNameString = PrefrenceSp.getmInstance(this).getString(Constant.CLASS_NAME, "");
         Log.d("wwq", "classNameString= " + classNameString);
         if (!TextUtils.isEmpty(classNameString)) {
@@ -52,18 +52,20 @@ public class JobWorkService extends JobService {
                 return true;
             }
             int count = classList.size();
-            if (!isStarted) {
-                isStarted = true;
-                for (int index = 0; index < count; index++) {
-                    String className = classList.get(index);
-                    Log.d("wwq", "启动service: " + className);
+            Log.d("wwq", "isStarted = " + isStarted);
+            for (int index = 0; index < count; index++) {
+                String className = classList.get(index);
+                if (!isServiceWork(this, className)) {
                     Intent intent = new Intent();
                     intent.setClassName(this.getPackageName(), className);
                     this.startService(intent);
-                }
-            } else {
-                Log.d("wwq", "service 已经启动: ");
-            }
+                    Log.d("wwq", "启动service: " + className);
+                }else{
+                    Log.d("wwq", "service 已经启动: "+className);
+                }            }
+//            } else {
+//                Log.d("wwq", "service 已经启动: ");
+//            }
         }
         return false;
     }

@@ -1,8 +1,11 @@
 package com.test.demo;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.Application;
+import android.content.Context;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.active.daemon.DebugException;
@@ -16,7 +19,12 @@ import com.active.daemon.ProtectManager;
 public class MyApp extends Application {
     @Override
     public void onCreate() {
+        String process = getCurrentProcessName();
+        if (!TextUtils.isEmpty(process) && !getPackageName().equals(process)) {
+            return;
+        }
         super.onCreate();
+        Log.d("wwq","getCurrentProcessName: "+getCurrentProcessName());
         try {
             new ProtectManager.Configuration()
                     .isOpen(true)
@@ -67,4 +75,18 @@ public class MyApp extends Application {
             }
         });
     }
+
+
+    private String getCurrentProcessName() {
+        int myPid = android.os.Process.myPid();
+        ActivityManager am = (ActivityManager)getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningAppProcessInfo appProcess : am.getRunningAppProcesses()) {
+            if (appProcess.pid == myPid) {
+                return appProcess.processName;
+            }
+        }
+        return null;
+    }
+
+
 }

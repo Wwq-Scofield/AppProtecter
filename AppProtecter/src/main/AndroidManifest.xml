@@ -25,11 +25,13 @@
         <service
             android:name="com.active.daemon.foreService.DaemonService"
             android:enabled="true"
+            android:process=":dameon"
             android:exported="true" />
 
         <service
             android:name="com.active.daemon.foreService.CancelNoticeService"
             android:enabled="true"
+            android:process=":cancel"
             android:exported="true" />
 
         <activity
