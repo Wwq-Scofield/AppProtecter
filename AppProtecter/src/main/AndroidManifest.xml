@@ -1,0 +1,27 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.active.daemon">
+
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <application>
+        <service
+            android:name=".jobservice.JobWorkService"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+        <service android:name=".foreService.DaemonService"
+            android:enabled="true"
+            android:exported="true"/>
+
+        <service android:name=".foreService.CancelNoticeService"
+            android:enabled="true"
+            android:exported="true"/>
+
+        <activity android:name=".onepxactivity.SinglePixelActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize|navigation|keyboard"
+            android:excludeFromRecents="true"
+            android:finishOnTaskLaunch="false"
+            android:launchMode="singleInstance"
+            android:theme="@style/SingleActivityStyle"/>
+
+
+    </application>
+
+</manifest>
