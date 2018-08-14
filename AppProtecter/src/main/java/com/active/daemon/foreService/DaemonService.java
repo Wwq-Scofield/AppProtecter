@@ -76,6 +76,7 @@ public class DaemonService extends Service {
             unregisterReceiver(receiver);
             receiver = null;
         }
+        JobWorkService.isStarted=false;
         Log.d(TAG, "DaemonService---->onDestroy，前台service被杀死");
         // 重启自己  
         Intent intent = new Intent(getApplicationContext(), DaemonService.class);

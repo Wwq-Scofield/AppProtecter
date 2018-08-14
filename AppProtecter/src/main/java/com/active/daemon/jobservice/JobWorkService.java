@@ -22,12 +22,13 @@ import java.util.List;
  */
 @SuppressLint("NewApi")
 public class JobWorkService extends JobService {
-    private boolean isStarted = false;
+    public static boolean isStarted = false;
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.i("wwq", "jobService启动");
         scheduleJob(getJobInfo());
+        startTargetService();
         return START_NOT_STICKY;
     }
 
@@ -51,17 +52,17 @@ public class JobWorkService extends JobService {
                 return true;
             }
             int count = classList.size();
-            for (int index = 0; index < count; index++) {
-                String className = classList.get(index);
-                if (!isStarted) {
-                    isStarted = true;
+            if (!isStarted) {
+                isStarted = true;
+                for (int index = 0; index < count; index++) {
+                    String className = classList.get(index);
                     Log.d("wwq", "启动service: " + className);
                     Intent intent = new Intent();
                     intent.setClassName(this.getPackageName(), className);
                     this.startService(intent);
-                } else {
-                    Log.d("wwq", "service 已经启动: ");
                 }
+            } else {
+                Log.d("wwq", "service 已经启动: ");
             }
         }
         return false;
