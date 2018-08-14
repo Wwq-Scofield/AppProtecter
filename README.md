@@ -5,7 +5,7 @@ AppProtecter
    使用方法：
    
    
-   
+
    
    allprojects {
 	repositories {
@@ -17,7 +17,7 @@ AppProtecter
    
    
    dependencies {
-        implementation 'com.github.Wwq-Scofield:AppProtecter:1.0'
+          implementation 'com.github.Wwq-Scofield:AppProtecter:1.3'
 }
 
 
