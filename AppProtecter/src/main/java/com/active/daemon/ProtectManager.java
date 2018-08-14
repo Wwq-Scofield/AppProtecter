@@ -110,7 +110,7 @@ public class ProtectManager {
             if (this.classNames != null && this.classNames.size() > 0) {
                 Log.d(TAG, "开启守护服务");
                 mContext.startService(new Intent(mContext.getApplicationContext(), DaemonService.class));
-                mContext.startService(new Intent(mContext, JobWorkService.class));
+                mContext.startService(new Intent(mContext.getApplicationContext(), JobWorkService.class));
             }
         }
     }

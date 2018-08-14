@@ -19,7 +19,7 @@ import com.active.daemon.onepxactivity.ScreenActivityManager;
 
 public class DaemonService extends Service {
     private static final String TAG = "wwq";
-    public static final int NOTICE_ID = 100;
+    public static final int NOTICE_ID = 1001;
     private ScreenReceiver receiver;
 
     @Nullable

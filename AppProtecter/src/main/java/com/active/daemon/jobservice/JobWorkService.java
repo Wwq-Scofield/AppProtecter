@@ -22,13 +22,13 @@ import java.util.List;
  */
 @SuppressLint("NewApi")
 public class JobWorkService extends JobService {
-    private int kJobId = 0;
     private boolean isStarted = false;
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.i("wwq", "jobService启动");
         scheduleJob(getJobInfo());
+        startTargetService();
         return START_NOT_STICKY;
     }
 
@@ -38,7 +38,6 @@ public class JobWorkService extends JobService {
         if (startTargetService()) return false;
         return true;
     }
-
     private boolean startTargetService() {
         String classNameString = PrefrenceSp.getmInstance(this).getString(Constant.CLASS_NAME, "");
         Log.d("wwq", "classNameString= " + classNameString);
@@ -83,15 +82,16 @@ public class JobWorkService extends JobService {
     }
 
     public JobInfo getJobInfo() {
-        JobInfo.Builder builder = new JobInfo.Builder(kJobId++, new ComponentName(this, JobWorkService.class));
+        JobInfo.Builder builder = new JobInfo.Builder(getCurrentProcessPid(), new ComponentName(this, JobWorkService.class));
         builder.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY);
         builder.setPersisted(true);
         builder.setRequiresCharging(false);
         builder.setRequiresDeviceIdle(false);
-        builder.setPeriodic(PrefrenceSp.getmInstance(this).getInt(Constant.JOB_DURATION, 60));//间隔默认、100毫秒
+        builder.setPeriodic(PrefrenceSp.getmInstance(this).getInt(Constant.JOB_DURATION, 100));//间隔默认、100毫秒
         return builder.build();
-    }    // 判断服务是否正在运行
+    }
 
+    // 判断服务是否正在运行
     public boolean isServiceWork(Context mContext, String serviceName) {
         boolean isWork = false;
         ActivityManager myAM = (ActivityManager) mContext
@@ -108,5 +108,9 @@ public class JobWorkService extends JobService {
             }
         }
         return isWork;
+    }
+    private int getCurrentProcessPid() {
+        return android.os.Process.myPid();
+
     }
 }

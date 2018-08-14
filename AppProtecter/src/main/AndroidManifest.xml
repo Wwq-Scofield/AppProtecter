@@ -4,24 +4,25 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <application>
         <service
-            android:name=".jobservice.JobWorkService"
+            android:name="com.active.daemon.jobservice.JobWorkService"
             android:permission="android.permission.BIND_JOB_SERVICE" />
-        <service android:name=".foreService.DaemonService"
+        <service
+            android:name="com.active.daemon.foreService.DaemonService"
             android:enabled="true"
-            android:exported="true"/>
+            android:exported="true" />
 
-        <service android:name=".foreService.CancelNoticeService"
+        <service
+            android:name="com.active.daemon.foreService.CancelNoticeService"
             android:enabled="true"
-            android:exported="true"/>
+            android:exported="true" />
 
-        <activity android:name=".onepxactivity.SinglePixelActivity"
+        <activity
+            android:name="com.active.daemon.onepxactivity.SinglePixelActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|navigation|keyboard"
             android:excludeFromRecents="true"
             android:finishOnTaskLaunch="false"
             android:launchMode="singleInstance"
-            android:theme="@style/SingleActivityStyle"/>
-
-
+            android:theme="@style/SingleActivityStyle" />
     </application>
 
 </manifest>
