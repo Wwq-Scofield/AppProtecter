@@ -24,3 +24,4 @@ AppProtecter
 
 
 其余方案可参考：https://github.com/Marswin/MarsDaemon
+发布jcenter 查询地址：https://jitpack.io/#Wwq-Scofield/AppProtecter
